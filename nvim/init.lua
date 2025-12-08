@@ -1,9 +1,36 @@
 vim.g.mapleader = ","
 require("config.lazy")
-nvim_lspconfig = require("lspconfig")
-nvim_lspconfig.ts_ls.setup{}
-nvim_lspconfig.rust_analyzer.setup{}
-nvim_lspconfig.glsl_analyzer.setup{}
+vim.diagnostic.config({
+  virtual_text = true,
+  update_in_insert = true
+})
+vim.lsp.config['lua_ls'] = {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'LuaJIT',
+      },
+      telemetry = { enable = false },
+      diagnostics = {
+          globals = { "vim" },
+      },
+    }
+  }
+}
+vim.lsp.config["ts_ls"] = {
+
+}
+
+vim.lsp.config["rust_analyzer"] = {
+
+}
+vim.lsp.config["glsl_analyzer"] = {
+
+}
+
 --require'lspconfig'.html.setup{}
 --vim.cmd 'colorscheme habamax'
 vim.o.number = true
