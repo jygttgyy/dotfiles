@@ -21,7 +21,7 @@ vim.opt.termguicolors = true
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.g.coq_settings = {
+--[[vim.g.coq_settings = {
 	auto_start = 'shut-up',
 	clients = {
 		lsp = {
@@ -33,7 +33,7 @@ vim.g.coq_settings = {
 			mode = "none"
 		}
 	}
-}
+}]]
 
 -- Setup lazy.nvim
 require("lazy").setup({

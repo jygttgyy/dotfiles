@@ -4,6 +4,7 @@ vim.diagnostic.config({
   virtual_text = true,
   update_in_insert = true
 })
+
 vim.lsp.config['lua_ls'] = {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -21,15 +22,115 @@ vim.lsp.config['lua_ls'] = {
   }
 }
 vim.lsp.config["ts_ls"] = {
-
+  cmd = { "typescript-language-server", "--stdio" },
+  filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+  root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
 }
 
 vim.lsp.config["rust_analyzer"] = {
-
+    capabilities = {
+        experimental = {
+            commands = {
+                commands = { "rust-analyzer.showReferences", "rust-analyzer.runSingle", "rust-analyzer.debugSingle" }
+            },
+            serverStatusNotification = true
+        }
+    },
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    settings = {
+        ["rust-analyzer"] = {
+            lens = {
+                debug = {
+                    enable = true
+                },
+                enable = true,
+                implementations = {
+                    enable = true
+                },
+                references = {
+                    adt = {
+                        enable = true
+                    },
+                    enumVariant = {
+                        enable = true
+                    },
+                    method = {
+                        enable = true
+                    },
+                    trait = {
+                        enable = true
+                    }
+                },
+                run = {
+                    enable = true
+                },
+                updateTest = {
+                    enable = true
+                }
+            }
+        }
+    }
 }
+--[[
 vim.lsp.config["glsl_analyzer"] = {
-
+    cmd = {},
+    filetypes = {},
+    root_markers = {},
+    settings = {}
 }
+--]]
+vim.lsp.config["wgsl_analyzer"] = {
+    cmd = { "wgsl_analyzer" },
+    filetypes = { "wgsl" },
+    root_markers = { ".git" },
+    settings = {}
+}
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP actions',
+  callback = function()
+    local bufmap = function(mode, lhs, rhs)
+      local opts = {buffer = true}
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+
+    -- Displays hover information about the symbol under the cursor
+    bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+
+    -- Jump to the definition
+    bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+
+    -- Jump to declaration
+    bufmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+
+    -- Lists all the implementations for the symbol under the cursor
+    bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+
+    -- Jumps to the definition of the type symbol
+    bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+
+    -- Lists all the references 
+    bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+
+    -- Displays a function's signature information
+    bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+
+    -- Renames all references to the symbol under the cursor
+    bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+
+    -- Selects a code action available at the current cursor position
+    bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+
+    -- Show diagnostics in a floating window
+    bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+
+    -- Move to the previous diagnostic
+    bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+
+    -- Move to the next diagnostic
+    bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+  end
+})
 
 --require'lspconfig'.html.setup{}
 --vim.cmd 'colorscheme habamax'
@@ -39,6 +140,14 @@ vim.o.termguicolors = true
 vim.o.background = 'dark'
 vim.o.emoji = false
 
+--Autocomplete
+vim.o.autocomplete = true
+vim.o.complete = "o,.,w,b,u"
+vim.o.completeopt = "fuzzy,menuone,noselect,popup"
+vim.o.pumheight = 7
+vim.o.pummaxwidth = 80
+vim.opt.shortmess:prepend("c") -- avoid having to press enter on snippet completion
+vim.au("LspAttach", { command = "setlocal complete=o" })
 -- Indentation
 vim.o.wrap = false
 vim.o.tabstop = 4
