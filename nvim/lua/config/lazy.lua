@@ -21,6 +21,7 @@ vim.opt.termguicolors = true
 -- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
 --[[vim.g.coq_settings = {
 	auto_start = 'shut-up',
 	clients = {
