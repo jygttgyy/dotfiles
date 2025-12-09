@@ -1,0 +1,47 @@
+vim.lsp.config["rust_analyzer"] = {
+    capabilities = {
+        experimental = {
+            commands = {
+                commands = { "rust-analyzer.showReferences", "rust-analyzer.runSingle", "rust-analyzer.debugSingle" }
+            },
+            serverStatusNotification = true
+        }
+    },
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    settings = {
+        ["rust-analyzer"] = {
+            lens = {
+                debug = {
+                    enable = true
+                },
+                enable = true,
+                implementations = {
+                    enable = true
+                },
+                references = {
+                    adt = {
+                        enable = true
+                    },
+                    enumVariant = {
+                        enable = true
+                    },
+                    method = {
+                        enable = true
+                    },
+                    trait = {
+                        enable = true
+                    }
+                },
+                run = {
+                    enable = true
+                },
+                updateTest = {
+                    enable = true
+                }
+            }
+        }
+    }
+}
+vim.lsp.enable("rust_analyzer")
+
