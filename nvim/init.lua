@@ -1,11 +1,15 @@
-vim.g.mapleader = ","
+vim.g.mapleader = " "
+vim.g.lazyvim_check_order = false
 require("config.lazy")
+require("config.options")
+require("config.keymaps")
+
 vim.diagnostic.config({
   virtual_text = true,
   update_in_insert = true
 })
 
-vim.lsp.config['lua_ls'] = {
+--[[vim.lsp.config['lua_ls'] = {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { { '.luarc.json', '.luarc.jsonc' }, '.git' },
@@ -21,6 +25,7 @@ vim.lsp.config['lua_ls'] = {
     }
   }
 }
+vim.lsp.enable('lua_ls')
 vim.lsp.config["ts_ls"] = {
   cmd = { "typescript-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
@@ -85,7 +90,7 @@ vim.lsp.config["wgsl_analyzer"] = {
     filetypes = { "wgsl" },
     root_markers = { ".git" },
     settings = {}
-}
+}--]]
 
 --require'lspconfig'.html.setup{}
 --vim.cmd 'colorscheme habamax'
@@ -96,12 +101,8 @@ vim.o.background = 'dark'
 vim.o.emoji = false
 
 --Autocomplete
-vim.o.complete = "o,.,w,b,u"
 vim.o.completeopt = "fuzzy,menuone,noselect,popup"
-vim.o.pumheight = 7
-vim.o.pummaxwidth = 80
-vim.opt.shortmess:prepend("c") -- avoid having to press enter on snippet completion
-vim.au("LspAttach", { command = "setlocal complete=o" })
+-- :::
 -- Indentation
 vim.o.wrap = false
 vim.o.tabstop = 4
